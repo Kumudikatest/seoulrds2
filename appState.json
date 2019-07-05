@@ -1,0 +1,140 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "8ac3140a-08b4-4f22-af5b-d8c78622dfdc": {
+        "id": "8ac3140a-08b4-4f22-af5b-d8c78622dfdc",
+        "parent": null,
+        "name": "seoulrds",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "a765e9e7-2b2d-44eb-9e74-0c80abd7fbbc",
+          "bfc4943c-f058-4e6f-9d58-e4c0c4bf7d27"
+        ],
+        "isRemovable": false,
+        "filePath": "seoulrds"
+      },
+      "a765e9e7-2b2d-44eb-9e74-0c80abd7fbbc": {
+        "id": "a765e9e7-2b2d-44eb-9e74-0c80abd7fbbc",
+        "parent": "8ac3140a-08b4-4f22-af5b-d8c78622dfdc",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "seoulrds/lambda.js",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'k',\n        query: 'INSERT INTO Test (ID);',\n        inserts: [1]\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
+      },
+      "bfc4943c-f058-4e6f-9d58-e4c0c4bf7d27": {
+        "id": "bfc4943c-f058-4e6f-9d58-e4c0c4bf7d27",
+        "parent": "8ac3140a-08b4-4f22-af5b-d8c78622dfdc",
+        "name": "ConnectionManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "seoulrds/ConnectionManager.js",
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"k\"] = {\n        host: process.env.EndPoint_rdsK,\n        port: process.env.Port_rdsK,\n        user: process.env.User_rdsK,\n        password: process.env.Password_rdsK,\n        database: \"k\"\n    };\n};"
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "8ac3140a-08b4-4f22-af5b-d8c78622dfdc",
+    "openFiles": [
+      "a765e9e7-2b2d-44eb-9e74-0c80abd7fbbc"
+    ],
+    "currentFileId": "a765e9e7-2b2d-44eb-9e74-0c80abd7fbbc",
+    "resources": {
+      "rds-k": {
+        "name": "rds-k",
+        "type": "RDS",
+        "config": {
+          "editMode": false,
+          "operation": 0,
+          "rdsInstance": {
+            "rdsEngineType": "mysql",
+            "rdsEdition": "",
+            "rdsInstanceSpec": {
+              "dbInstanceClass": "db.t2.micro",
+              "dbLicenseModel": "general-public-license",
+              "dbEngineVersion": "5.7.19"
+            },
+            "rdsSetting": {
+              "instanceIdentifier": "k",
+              "masterUsername": "k",
+              "masterPassword": "Test#123"
+            },
+            "rdsDBOptions": {
+              "dbName": "k",
+              "dbPort": "7777"
+            },
+            "rdsInstanceArn": "",
+            "Host": "",
+            "doesExist": false,
+            "initializationQuery": "CREATE TABLE Test (ID int(5));",
+            "alreadyDeployed": false
+          },
+          "rdsInstanceResources": [],
+          "projectRegion": "ap-northeast-2",
+          "mode": 0,
+          "additionalFiles": [],
+          "params": {
+            "query": "INSERT INTO Test (ID);",
+            "inserts": "1"
+          },
+          "isGlobalEditMode": false,
+          "enableInject": true,
+          "isNewFromGlobal": false
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-aws": {
+          "name": "slappforge-sdk-aws",
+          "language": "javascript",
+          "version": "0.0.5",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "seoulrds",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "ap-northeast-2",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1562305550336
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "seoulrds",
+      "url": "https://github.com/Kumudikatest/seoulrds2"
+    }
+  }
+}
